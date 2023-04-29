@@ -57,15 +57,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, MainActivityPres
         searchRecycler.adapter = searchadapter
         searchadapter.setOnItemClickListener(this)
 
-        mPresenter.getCurrentLocation(DEFAULT_CITY)
-        mPresenter.getForecastData(DEFAULT_CITY)
+        mPresenter.getCurrentLocation(DEFAULT_CITY) // default city is cairo when the user open the app
+        mPresenter.getForecastData(DEFAULT_CITY) // default city is cairo when the user open the app
 
         binding.searchEt.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                if (binding.searchEt.text.toString().trim().length > 1) {
+                if (binding.searchEt.text.toString().trim().length > 1) { // call api if the user type more than 2 chr
                     searchProgress.visibility = View.VISIBLE
                     mPresenter.getSearchData(binding.searchEt.text.toString().trim())
-                } else if (binding.searchEt.text.toString().trim().isEmpty()) {
+                } else if (binding.searchEt.text.toString().trim().isEmpty()) { // hide city drop down if the user clear search bar
                     searchRecycler.visibility = View.GONE
                     searchProgress.visibility = View.GONE
                 }
@@ -139,8 +139,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, MainActivityPres
     onClick search adapter (city name) update the UI
      */
     override fun onItemClick(name: String) {
-        hideKeyboard(this)
-        binding.searchEt.clearFocus()
+        hideKeyboard(this) // hide keyboard after user click on city
+        binding.searchEt.clearFocus() // clear keyboard focus after user click on city
         mPresenter.getCurrentLocation(name)
         mPresenter.getForecastData(name)
         searchRecycler.visibility = View.GONE
